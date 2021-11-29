@@ -17,7 +17,7 @@ public class Main {
                 int number = 1 + (int) (20 * Math.random());
                 int guess = -1;
                 int count = 0;
-// this is just
+
 
                     int i;
                    int trail = 6;
