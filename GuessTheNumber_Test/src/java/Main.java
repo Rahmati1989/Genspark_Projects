@@ -1,62 +1,60 @@
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 
-    public  class Main {
+public  class Main {
         public static Scanner scan = new Scanner(System.in);
-        public static boolean failer = false;
-        public static void main(String[] args) {
-//        try {
-            String choice = "";
+        static int generateRandomNum() {
+            return ThreadLocalRandom.current().nextInt(1, 20);
+        }
+        static boolean isRespond(int guess, int realNum){
+            if(guess < realNum){
+                System.out.println("Your Guess is too Low!");
+            }
+            else if (guess > realNum){
+                System.out.println("Your Guess is too High!");
+            }
+            else{
+                System.out.println("Congratulation You Won The Game!");
+                return true;
+            }
+            return false;
+        }
+        static String getUsername(){
             System.out.println("Hello! What is your name?");
-            String name = scan.nextLine();
-            do {
-                failer = false;
-                try {
-                    System.out.println("Hello," + name + ", I am thinking of a number between 1 and 20");
-                    int number = 1 + (int) (20 * Math.random());
-                    int guess = -1;
-                    int count = 0;
-                    int i;
-                    int trail = 6;
-                    for(i=0;i<trail;i++){
-                        count++;
-                        System.out.println("Take a guess.");
-                        guess = scan.nextInt();
-                        verifyInput(guess,scan);
+            return scan.nextLine();
+        }
+        static Integer guessTheNumber(){
+            System.out.println("Take a guess.");
+            return scan.nextInt();
+        }
+        static boolean playAgainTheGame(){
+            System.out.println("Do you want to play again");
+            return isPlayAgain(scan.nextLine());
 
-                        if (number == guess) {
-                            System.out.println("Good job, " + name + "! you guessed my number in " + count + " gueses!");
-                        } else if (number < guess) {
-                            System.out.println("Your guess is too high");
-                        } else {
-                            System.out.println("Your guess is too low");
-                        }
+        }
+        static boolean isPlayAgain(String yes){
+            if(yes.startsWith("y")){
+                return true;
+            }
+            return false;
+        }
 
+        public static void main(String[] args) {
+            String name = getUsername();
+            System.out.println("Hello," + name + ", I am thinking of a number between 1 and 20");
+            int secNumber = generateRandomNum();
+            while (true){
+                if(isRespond(guessTheNumber(),secNumber)){
+
+                    if(!playAgainTheGame()){
+                        break;
                     }
-                    if(i == trail){
-                        System.out.println("You Attempt number of trails, You lose.");
-                    }
-//                }
-                    System.out.println("Would you like to play again?(y or n)");
-                    choice = scan.next();
-
-                }catch (Exception e){
-                    failer = true;
-                    scan.nextLine();
-                    System.out.println("Input Must be a number and It should be in range of 1 to 20");
-
+                    secNumber = generateRandomNum();
                 }
             }
-            while (choice.equals("Y") || choice.equals("y")|| failer);
 
         }
-        public static void verifyInput(int guess, Scanner scan){
-            while (guess <1 || guess >20){
-                System.out.println("You should chose the number in the range of 1 to 20");
-                guess = scan.nextInt();
-            }
-        }
-
     }
 
 
